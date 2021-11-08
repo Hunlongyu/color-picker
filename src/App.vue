@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="history">
-      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`"></div>
+      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ import { writeText } from '@tauri-apps/api/clipboard'
 const colorValue = ref('')
 const colorType = ref('HEX')
 const hexColor = ref('')
-const history = ref(['#123', '#234', '#345', '#456', '#567', '#789', '#89a', '#9ab', '#abc', '#bcd', '#cde', '#def'])
+const history = ref([])
 
 // 软件最小化
 function handleMinimize () {
@@ -67,6 +67,7 @@ async function handleColorPicker () {
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
   changeColorType()
+  putHistory()
 }
 // 复制到剪贴板
 function handleCopy () {
@@ -94,8 +95,22 @@ function changeColorType () {
     colorValue.value = color.hwb()
   }
 }
-
-// function putHistory
+// 历史记录
+function putHistory () {
+  const arr = [...history.value]
+  if (history.value.length < 12) {
+    arr.unshift(hexColor.value)
+  } else {
+    arr.pop()
+    arr.unshift(hexColor.value)
+  }
+  history.value = arr
+}
+// 点击历史记录里的颜色事件
+function handleHistory (color) {
+  hexColor.value = color
+  changeColorType()
+}
 </script>
 
 <style>
@@ -191,11 +206,11 @@ html,body, #app{
   box-sizing: border-box;
   cursor: pointer;
 }
-.history .item:first-child{
-  border-radius: 4px 0 0 4px;
-}
 .history .item:last-child{
   border-radius: 0 4px 4px 0;
+}
+.history .item:first-child{
+  border-radius: 4px 0 0 4px;
 }
 .history .item:hover{
   box-shadow: 0 0 6px #333;
