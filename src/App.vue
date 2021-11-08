@@ -87,16 +87,16 @@ async function changeColorType () {
     colorValue.value = color.hex()
   }
   if (colorType.value === 'HSL') {
-    colorValue.value = color.hsl()
+    colorValue.value = color.hsl().string()
   }
   if (colorType.value === 'RGB') {
-    colorValue.value = color.rgb()
+    colorValue.value = color.rgb().string()
   }
   if (colorType.value === 'CMYK') {
-    colorValue.value = color.cmyk().round().array()
+    colorValue.value = color.cmyk().round().array().toString()
   }
   if (colorType.value === 'HWB') {
-    colorValue.value = color.hwb()
+    colorValue.value = color.hwb().string()
   }
 }
 // 历史记录
