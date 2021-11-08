@@ -28,14 +28,12 @@
         </span>
       </div>
       <div class="type">
-        <select v-model="colorType">
+        <select v-model="colorType" @change="changeColorType">
           <option value="HEX" label="HEX"></option>
           <option value="HSL" label="HSL"></option>
           <option value="RGB" label="RGB"></option>
-          <option value="RGBa" label="RGBa"></option>
-          <option value="CYMK" label="CYMK"></option>
-          <option value="HSB" label="HSB"></option>
-          <option value="Lab" label="Lab"></option>
+          <option value="CMYK" label="CMYK"></option>
+          <option value="HWB" label="HWB"></option>
         </select>
       </div>
     </div>
@@ -49,9 +47,10 @@ import { ref } from 'vue'
 import Color from 'color'
 import { appWindow } from '@tauri-apps/api/window'
 
-const colorValue = ref('#ffffff')
+const colorValue = ref('')
 const colorType = ref('HEX')
-const history = ref(['#123', '#234', '#345', '#456', '#567', '#789', '#89a', '#9ab', '#abc', '#bcd'])
+const hexColor = ref('')
+const history = ref(['#123', '#234', '#345', '#456', '#567', '#789', '#89a', '#9ab', '#abc', '#bcd', '#cde', '#def'])
 
 // 软件最小化
 function handleMinimize () {
@@ -65,17 +64,29 @@ function handleClose () {
 async function handleColorPicker () {
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
-  colorValue.value = result.sRGBHex
+  hexColor.value = result.sRGBHex
   changeColorType()
 }
 
+// 改变颜色类型
 function changeColorType () {
-  const color = Color(colorValue.value)
-  console.log('old1', color, colorValue.value)
-  if (colorType === 'HEX') {
-    colorValue.value = '#000000'
+  if (hexColor.value === '') return false
+  const color = Color(hexColor.value)
+  if (colorType.value === 'HEX') {
+    colorValue.value = color.hex()
   }
-  console.log('old2', color, colorValue.value)
+  if (colorType.value === 'HSL') {
+    colorValue.value = color.hsl()
+  }
+  if (colorType.value === 'RGB') {
+    colorValue.value = color.rgb()
+  }
+  if (colorType.value === 'CMYK') {
+    colorValue.value = color.cmyk().round().array()
+  }
+  if (colorType.value === 'HWB') {
+    colorValue.value = color.hwb()
+  }
 }
 
 // function putHistory
@@ -146,7 +157,7 @@ html,body, #app{
 }
 .body .input input{
   height: 28px;
-  width: 140px;
+  width: 200px;
   border: none;
   outline: none;
   background-color: #f6f3f1;
@@ -157,7 +168,7 @@ html,body, #app{
 }
 .body .type select{
   height: 30px;
-  width: 86px;
+  width: 82px;
   margin-left: 10px;
   border: none;
   background-color: #f6f3f1;
@@ -166,7 +177,6 @@ html,body, #app{
   cursor: pointer;
   font-size: 18px;
   color: #252525;
-  letter-spacing: 1px;
 }
 .history .item{
   width: 30px;
