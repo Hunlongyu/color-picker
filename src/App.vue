@@ -38,20 +38,23 @@
       </div>
     </div>
     <div class="history">
-      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
+      <div class="item" v-for="(i, j) in history.list" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Color from 'color'
+import db from 'localforage'
 import { appWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
 
 const colorValue = ref('')
 const colorType = ref('HEX')
 const hexColor = ref('')
-const history = ref([])
+const history = reactive({
+  list: []
+})
 
 // 软件最小化
 function handleMinimize () {
@@ -66,8 +69,9 @@ async function handleColorPicker () {
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
-  changeColorType()
-  putHistory()
+  await changeColorType()
+  await putHistory()
+  await saveDbHistory()
 }
 // 复制到剪贴板
 function handleCopy () {
@@ -76,7 +80,7 @@ function handleCopy () {
 }
 
 // 改变颜色类型
-function changeColorType () {
+async function changeColorType () {
   if (hexColor.value === '') return false
   const color = Color(hexColor.value)
   if (colorType.value === 'HEX') {
@@ -96,21 +100,33 @@ function changeColorType () {
   }
 }
 // 历史记录
-function putHistory () {
-  const arr = [...history.value]
-  if (history.value.length < 12) {
+async function putHistory () {
+  const arr = [...history.list]
+  if (history.list.length < 12) {
     arr.unshift(hexColor.value)
   } else {
     arr.pop()
     arr.unshift(hexColor.value)
   }
-  history.value = arr
+  history.list = arr
 }
 // 点击历史记录里的颜色事件
 function handleHistory (color) {
   hexColor.value = color
   changeColorType()
 }
+// 从本地数据库获取历史数据
+async function getDbHistory () {
+  const historyList = await db.getItem('history')
+  history.list = historyList
+}
+// 保存历史数据到本地数据库
+async function saveDbHistory () {
+  db.setItem('history', [...history.list])
+}
+onMounted(() => {
+  getDbHistory()
+})
 </script>
 
 <style>
