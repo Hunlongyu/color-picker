@@ -69,16 +69,23 @@ async function handleColorPicker () {
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
+  await checkRepeatColor()
   await changeColorType()
   await putHistory()
   await saveDbHistory()
+}
+// 颜色去重
+async function checkRepeatColor () {
+  const idx = history.list.indexOf(hexColor.value)
+  const arr = [...history.list]
+  arr.splice(idx, 1)
+  history.list = arr
 }
 // 复制到剪贴板
 function handleCopy () {
   if (colorValue.value === '') return false
   writeText(colorValue.value)
 }
-
 // 改变颜色类型
 async function changeColorType () {
   if (hexColor.value === '') return false

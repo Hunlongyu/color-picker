@@ -5,7 +5,9 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "d": "tauri dev",
+    "b": "tauri build"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-beta.8",
