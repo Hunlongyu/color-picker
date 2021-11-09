@@ -48,6 +48,8 @@ import Color from 'color'
 import db from 'localforage'
 import { appWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
+import { register } from '@tauri-apps/api/globalShortcut'
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 
 const colorValue = ref('')
 const colorType = ref('HEX')
@@ -66,6 +68,7 @@ function handleClose () {
 }
 // 开始取色
 async function handleColorPicker () {
+  sendNotification('start pick color!')
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
@@ -131,8 +134,27 @@ async function getDbHistory () {
 async function saveDbHistory () {
   db.setItem('history', [...history.list])
 }
-onMounted(() => {
+
+function handleCancelPick () {}
+// 注册全局快捷键
+async function handleShortcut () {
+  try {
+    await register('f2', handleColorPicker)
+  } catch (ignore) {
+    sendNotification('F2 快捷键被占用，请注册新的快捷键！')
+  }
+}
+// 申请通知权限
+async function getNotificationGranted () {
+  const res = await isPermissionGranted()
+  if (!res) {
+   const flag = await requestPermission()
+   console.log('=== flag ===', flag)
+  }
+}
+onMounted(async () => {
   getDbHistory()
+  handleShortcut()
 })
 </script>
 
