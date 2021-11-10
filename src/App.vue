@@ -44,10 +44,10 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import { appWindow, getAll, WebviewWindow } from '@tauri-apps/api/window'
+import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
+import { listen } from '@tauri-apps/api/event'
 import { register } from '@tauri-apps/api/globalShortcut'
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 import Color from 'color'
 import db from 'localforage'
 
@@ -65,7 +65,8 @@ function openSettings () {
     resizable: false,
     center: true,
     decorations: false,
-    transparent: true
+    transparent: true,
+    alwaysOnTop: true
   })
 }
 // 软件最小化
@@ -78,7 +79,6 @@ function handleClose () {
 }
 // 开始取色
 async function handleColorPicker () {
-  sendNotification('start pick color!')
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
@@ -150,24 +150,30 @@ async function saveDbHistory () {
   db.setItem('history', [...history.value])
 }
 // 注册全局快捷键
-async function handleShortcut () {
+async function handleShortcut (s) {
   try {
-    await register('f2', handleColorPicker)
+    await register(s, handleColorPicker)
   } catch (ignore) {
-    sendNotification('F2 快捷键被占用，请注册新的快捷键！')
+    console.log('被占用')
   }
 }
-// 申请通知权限
-async function getNotificationGranted () {
-  const flag = await requestPermission()
-  console.log('=== flag ===', flag)
-  // const res = await isPermissionGranted()
-  // if (!res) {
-  // }
+// 获取数据库 设置信息
+async function getDBSettings () {
+  const s = await db.getItem('shortcut')
+  if (s) {
+    handleShortcut(s)
+  } else {
+    handleShortcut('f2')
+  }
+  const c = await db.getItem('colorType')
+  if (c) colorType.value = c
 }
 onMounted(async () => {
+  getDBSettings()
   getDbHistory()
-  handleShortcut()
+  listen('changeShortcut', ee => {
+    console.log('== ee ==', ee)
+  })
 })
 </script>
 

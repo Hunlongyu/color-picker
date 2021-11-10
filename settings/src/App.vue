@@ -2,9 +2,6 @@
   <div class="app">
     <div class="frame" data-tauri-drag-region>
       <div class="win">
-        <span @click="handleMinimize">
-          <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="white" fill-opacity="0.01"/><path d="M10.5 24L38.5 24" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
         <span @click="handleClose">
           <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="white" fill-opacity="0.01"/><path d="M8 8L40 40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 40L40 8" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
@@ -15,9 +12,9 @@
         <div class="item">
           <div class="label">截屏快捷键：</div>
           <div class="value">
-            <input type="text" v-model="shortcut">
+            <input type="text" v-model.trim="shortcut" @change="handleShortcut">
           </div>
-          <div class="status yes"></div>
+          <div class="status" :class="[isRegister ? 'yes' : 'no']" :title="isRegister ? '快捷键正常' : '快捷键被占用，请注册新的快捷键！'"></div>
         </div>
         <div class="item">
           <div class="label">颜色值类型：</div>
@@ -35,20 +32,56 @@
       </div>
       <div class="about">
         <div class="name">Color Picker</div>
-        <div class="version">v0.1.0</div>
+        <div class="version">v{{version}}</div>
         <div class="link">
-          <a target="_blank" href="https://www.baidu.com">Hunlongyu</a>
-          <a target="_blank" href="https://www.baidu.com">Github</a>
-          <a target="_blank" href="https://www.baidu.com">反馈</a>
+          <a target="_blank" href="https://github.com/Hunlongyu">Hunlongyu</a>
+          <a target="_blank" href="https://github.com/Hunlongyu/color-picker">Github</a>
+          <a target="_blank" href="https://github.com/Hunlongyu/color-picker/issues">反馈</a>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { appWindow } from '@tauri-apps/api/window'
+import { emit } from '@tauri-apps/api/event'
+import { isRegistered, unregister } from '@tauri-apps/api/globalShortcut'
+import db from 'localforage'
+import pkg from '../../package.json'
 const shortcut = ref('F2')
+const isRegister = ref(false)
 const colorType = ref('HEX')
+const version = ref(pkg.version)
+
+// 软件关闭
+function handleClose () {
+  appWindow.close()
+}
+// 获取数据库信息
+async function getDBSettings () {
+  const s = await db.getItem('shortcut')
+  if (s) shortcut.value = s
+  const c = await db.getItem('colorType')
+  if (c) colorType.value = c
+  console.log(s, c)
+  checkShortcut()
+}
+// 检查快捷键是否正常
+async function checkShortcut () {
+  const f = await isRegistered(shortcut.value)
+  isRegister.value = f
+}
+
+async function handleShortcut () {
+  if (shortcut.value === '') return false 
+  const s = await db.getItem('shortcut')
+  await unregister(s)
+  await emit('changeShortcut', 'main', shortcut.value)
+}
+onMounted(() => {
+  getDBSettings()
+})
 </script>
 <style>
 html,body, #app{
