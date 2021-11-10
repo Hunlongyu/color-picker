@@ -46,7 +46,6 @@
 import { ref, onMounted } from 'vue'
 import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
-import { listen } from '@tauri-apps/api/event'
 import { register } from '@tauri-apps/api/globalShortcut'
 import Color from 'color'
 import db from 'localforage'
@@ -144,6 +143,8 @@ async function getDbHistory () {
   const historyList: string[] | null = await db.getItem('history')
   if (historyList) {
     history.value = historyList
+    hexColor.value = history.value[0]
+    changeColorType()
   }
 }
 // 保存历史数据到本地数据库
@@ -172,9 +173,6 @@ async function getDBSettings () {
 onMounted(async () => {
   getDBSettings()
   getDbHistory()
-  listen('changeShortcut', ee => {
-    console.log('== ee ==', ee)
-  })
 })
 </script>
 
