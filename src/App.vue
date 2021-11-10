@@ -59,7 +59,7 @@ const history = ref<string[]>([])
 // 打开设置界面
 function openSettings () {
   new WebviewWindow('settings', {
-    url: 'settings/index.html',
+    url: 'pages/index.html',
     width: 356,
     height: 230,
     resizable: false,
@@ -79,6 +79,7 @@ function handleClose () {
 }
 // 开始取色
 async function handleColorPicker () {
+  // @ts-ignore
   const eyeDropper = new EyeDropper()
   const result = await eyeDropper.open()
   hexColor.value = result.sRGBHex
