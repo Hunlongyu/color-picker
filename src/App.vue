@@ -38,25 +38,23 @@
       </div>
     </div>
     <div class="history">
-      <div class="item" v-for="(i, j) in history.list" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
+      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import Color from 'color'
-import db from 'localforage'
 import { appWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
 import { register } from '@tauri-apps/api/globalShortcut'
+import Color from 'color'
+import db from 'localforage'
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 
 const colorValue = ref('')
 const colorType = ref('HEX')
 const hexColor = ref('')
-const history = reactive({
-  list: []
-})
+const history = ref([])
 
 // 软件最小化
 function handleMinimize () {
@@ -79,10 +77,13 @@ async function handleColorPicker () {
 }
 // 颜色去重
 async function checkRepeatColor () {
-  const idx = history.list.indexOf(hexColor.value)
-  const arr = [...history.list]
-  arr.splice(idx, 1)
-  history.list = arr
+  if (history.value.length < 1) return false
+  const idx = history.value.indexOf(hexColor.value)
+  if (idx >= 0) {
+    const arr = [...history.value]
+    arr.splice(idx, 1)
+    history.value = arr
+  }
 }
 // 复制到剪贴板
 function handleCopy () {
@@ -111,14 +112,14 @@ async function changeColorType () {
 }
 // 历史记录
 async function putHistory () {
-  const arr = [...history.list]
-  if (history.list.length < 12) {
+  const arr = [...history.value]
+  if (history.value.length < 12) {
     arr.unshift(hexColor.value)
   } else {
     arr.pop()
     arr.unshift(hexColor.value)
   }
-  history.list = arr
+  history.value = arr
 }
 // 点击历史记录里的颜色事件
 function handleHistory (color) {
@@ -128,11 +129,13 @@ function handleHistory (color) {
 // 从本地数据库获取历史数据
 async function getDbHistory () {
   const historyList = await db.getItem('history')
-  history.list = historyList
+  if (historyList) {
+    history.value = historyList
+  }
 }
 // 保存历史数据到本地数据库
 async function saveDbHistory () {
-  db.setItem('history', [...history.list])
+  db.setItem('history', [...history.value])
 }
 
 function handleCancelPick () {}
