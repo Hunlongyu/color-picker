@@ -61,9 +61,11 @@ function openSettings () {
   new WebviewWindow('settings', {
     url: 'settings/index.html',
     width: 356,
-    height: 300,
+    height: 230,
     resizable: false,
-    center: true
+    center: true,
+    decorations: false,
+    transparent: true
   })
 }
 // 软件最小化
