@@ -2,7 +2,7 @@
   <div class="app">
     <div class="frame" data-tauri-drag-region>
       <div class="menu">
-        <span>
+        <span @click="openSettings">
           <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="white" fill-opacity="0.01"/><path d="M7.94977 11.9498H39.9498" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.94977 23.9498H39.9498" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.94977 35.9498H39.9498" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
       </div>
@@ -43,19 +43,29 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { appWindow } from '@tauri-apps/api/window'
+import { ref, onMounted } from 'vue'
+import { appWindow, getAll, WebviewWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
 import { register } from '@tauri-apps/api/globalShortcut'
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 import Color from 'color'
 import db from 'localforage'
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 
 const colorValue = ref('')
 const colorType = ref('HEX')
 const hexColor = ref('')
 const history = ref([])
 
+// 打开设置界面
+function openSettings () {
+  new WebviewWindow('settings', {
+    url: 'settings/index.html',
+    width: 356,
+    height: 300,
+    resizable: false,
+    center: true
+  })
+}
 // 软件最小化
 function handleMinimize () {
   appWindow.minimize()
@@ -137,8 +147,6 @@ async function getDbHistory () {
 async function saveDbHistory () {
   db.setItem('history', [...history.value])
 }
-
-function handleCancelPick () {}
 // 注册全局快捷键
 async function handleShortcut () {
   try {
@@ -149,11 +157,11 @@ async function handleShortcut () {
 }
 // 申请通知权限
 async function getNotificationGranted () {
-  const res = await isPermissionGranted()
-  if (!res) {
-   const flag = await requestPermission()
-   console.log('=== flag ===', flag)
-  }
+  const flag = await requestPermission()
+  console.log('=== flag ===', flag)
+  // const res = await isPermissionGranted()
+  // if (!res) {
+  // }
 }
 onMounted(async () => {
   getDbHistory()

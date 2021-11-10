@@ -53,6 +53,7 @@
     },
     "windows": [
       {
+        "label": "main",
         "width": 356,
         "height": 90,
         "alwaysOnTop": true,
