@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="history">
-      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)"></div>
+      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)" @dblclick="handleCopy"></div>
     </div>
   </div>
 </template>
