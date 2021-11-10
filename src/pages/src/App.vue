@@ -42,17 +42,17 @@
     </div>
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { appWindow } from '@tauri-apps/api/window'
-import { emit } from '@tauri-apps/api/event'
+import { emit } from '@tauri-apps/api/helpers/event'
 import { isRegistered, unregister } from '@tauri-apps/api/globalShortcut'
 import db from 'localforage'
 import pkg from '../../package.json'
-const shortcut = ref('F2')
-const isRegister = ref(false)
-const colorType = ref('HEX')
-const version = ref(pkg.version)
+const shortcut = ref<string>('F2')
+const isRegister = ref<boolean>(false)
+const colorType = ref<string>('HEX')
+const version = ref<string>(pkg.version)
 
 // 软件关闭
 function handleClose () {
@@ -60,9 +60,9 @@ function handleClose () {
 }
 // 获取数据库信息
 async function getDBSettings () {
-  const s = await db.getItem('shortcut')
+  const s: string | null = await db.getItem('shortcut')
   if (s) shortcut.value = s
-  const c = await db.getItem('colorType')
+  const c: string | null = await db.getItem('colorType')
   if (c) colorType.value = c
   console.log(s, c)
   checkShortcut()
@@ -73,11 +73,15 @@ async function checkShortcut () {
   isRegister.value = f
 }
 
+function changeColorType () {}
+
 async function handleShortcut () {
   if (shortcut.value === '') return false 
-  const s = await db.getItem('shortcut')
-  await unregister(s)
-  await emit('changeShortcut', 'main', shortcut.value)
+  const s: string | null = await db.getItem('shortcut')
+  if (s) {
+    await unregister(s)
+    await emit('changeShortcut', 'main', shortcut.value)
+  }
 }
 onMounted(() => {
   getDBSettings()

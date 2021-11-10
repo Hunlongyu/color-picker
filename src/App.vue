@@ -42,7 +42,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
@@ -51,10 +51,10 @@ import { register } from '@tauri-apps/api/globalShortcut'
 import Color from 'color'
 import db from 'localforage'
 
-const colorValue = ref('')
-const colorType = ref('HEX')
-const hexColor = ref('')
-const history = ref([])
+const colorValue = ref<string>('')
+const colorType = ref<string>('HEX')
+const hexColor = ref<string>('')
+const history = ref<string[]>([])
 
 // 打开设置界面
 function openSettings () {
@@ -134,13 +134,13 @@ async function putHistory () {
   history.value = arr
 }
 // 点击历史记录里的颜色事件
-function handleHistory (color) {
+function handleHistory (color: string) {
   hexColor.value = color
   changeColorType()
 }
 // 从本地数据库获取历史数据
 async function getDbHistory () {
-  const historyList = await db.getItem('history')
+  const historyList: string[] | null = await db.getItem('history')
   if (historyList) {
     history.value = historyList
   }
@@ -150,7 +150,7 @@ async function saveDbHistory () {
   db.setItem('history', [...history.value])
 }
 // 注册全局快捷键
-async function handleShortcut (s) {
+async function handleShortcut (s: string) {
   try {
     await register(s, handleColorPicker)
   } catch (ignore) {
@@ -159,13 +159,13 @@ async function handleShortcut (s) {
 }
 // 获取数据库 设置信息
 async function getDBSettings () {
-  const s = await db.getItem('shortcut')
+  const s: string | null = await db.getItem('shortcut')
   if (s) {
     handleShortcut(s)
   } else {
     handleShortcut('f2')
   }
-  const c = await db.getItem('colorType')
+  const c: string | null = await db.getItem('colorType')
   if (c) colorType.value = c
 }
 onMounted(async () => {
