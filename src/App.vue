@@ -44,7 +44,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
+import { appWindow } from '@tauri-apps/api/window'
 import { writeText } from '@tauri-apps/api/clipboard'
 import { register } from '@tauri-apps/api/globalShortcut'
 import Color from 'color'
@@ -57,16 +57,7 @@ const history = ref<string[]>([])
 
 // 打开设置界面
 function openSettings () {
-  new WebviewWindow('settings', {
-    url: 'pages/index.html',
-    width: 356,
-    height: 230,
-    resizable: false,
-    center: true,
-    decorations: false,
-    transparent: true,
-    alwaysOnTop: true
-  })
+  console.log('open settings')
 }
 // 软件最小化
 function handleMinimize () {
