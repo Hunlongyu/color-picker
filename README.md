@@ -33,7 +33,7 @@
 ### 🌴 下载
 
 - 🎃 [官网](https://github.com/Hunlongyu/color-picker/releases)
-- 🎭 [阿里网盘](https://www.aliyundrive.com/s/tQYzWWqc5Q6)
+- 🎭 [阿里网盘](https://alywp.net/29Uocq)
 
 ### 🎨 截图
 
