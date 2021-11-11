@@ -39,9 +39,9 @@
 
 |                          🥼 主界面                          |
 | :----------------------------------------------------------: |
-|    ![00.png](https://i.loli.net/2021/11/11/RBqokdNGZj2YimO.png)    |
+|    ![00.png](https://i.loli.net/2021/11/11/TshuoCgZKeS6J1b.png)    |
 |                            🧥 取色                            |
-|    ![03.png](https://i.loli.net/2021/11/11/3LZQKTbr9NPzlUp.png)    |
+|    ![11.png](https://i.loli.net/2021/11/11/KNLAckDPUz8u2G7.png)    |
 ### 👀 Tips
 1. 软件默认只支持 WIN11。低于 WIN11 会在安装过程中安装运行环境。
 2. 下拉菜单会错位显示，这个是底层框架的 BUG，目前还没有解决方案。
