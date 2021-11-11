@@ -235,6 +235,7 @@ async function checkShortcut () {
 async function changeDbColorType () {
   await db.setItem('colorType', dbColorType.value)
   colorType.value = dbColorType.value
+  changeColorType()
 }
 onMounted(async () => {
   getDBSettings()
