@@ -238,8 +238,8 @@ async function changeDbColorType () {
   changeColorType()
 }
 onMounted(async () => {
-  getDBSettings()
-  getDbHistory()
+  await getDBSettings()
+  await getDbHistory()
 })
 </script>
 

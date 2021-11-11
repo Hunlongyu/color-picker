@@ -23,9 +23,9 @@
       ],
       "resources": [],
       "externalBin": [],
-      "copyright": "",
+      "copyright": "Copyright (c) 2021 Hunlongyu",
       "category": "DeveloperTool",
-      "shortDescription": "",
+      "shortDescription": "color picker app",
       "longDescription": "",
       "deb": {
         "depends": [],
