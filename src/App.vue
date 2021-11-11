@@ -113,7 +113,7 @@ function openSite (site: string) {
 }
 // 软件最小化
 function handleMinimize () {
-  appWindow.minimize()
+  appWindow.hide()
 }
 // 软件关闭
 function handleClose () {
