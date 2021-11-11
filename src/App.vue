@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="history">
-      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)" @dblclick="handleCopy"></div>
+      <div class="item" v-for="(i, j) in history" :key="j" :style="`background-color: ${i};`" @click="handleHistory(i)" @dblclick="handleCopy" @contextmenu.prevent="deleteItem(j)"></div>
     </div>
     <div class="settings" v-show="show">
       <div class="item">
@@ -145,6 +145,13 @@ async function checkRepeatColor () {
 function handleCopy () {
   if (colorValue.value === '') return false
   writeText(colorValue.value)
+}
+// 右键删除颜色
+function deleteItem (n: number) {
+  const arr = [...history.value]
+  arr.splice(n, 1)
+  history.value = arr
+  saveDbHistory()
 }
 // 改变颜色类型
 async function changeColorType () {
