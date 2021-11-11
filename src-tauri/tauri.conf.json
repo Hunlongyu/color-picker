@@ -46,7 +46,11 @@
       }
     },
     "updater": {
-      "active": false
+      "active": true,
+      "dialog": true,
+      "endpoints": [
+        "https://github.com/Hunlongyu/color-picker/releases/{{current_version}}"
+      ]
     },
     "allowlist": {
       "all": true
