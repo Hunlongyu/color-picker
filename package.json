@@ -8,7 +8,7 @@
     "tauri": "tauri",
     "d": "tauri dev",
     "b": "tauri build",
-    "icons": "electron-icon-builder --input=./public/icon.png --output=src-tauri/icons --flatten"
+    "icons": "electron-icon-builder --input=./public/icon.png --output=src-tauri/ --flatten"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-beta.8",
