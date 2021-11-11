@@ -88,7 +88,6 @@ import { isRegistered, unregister, register } from '@tauri-apps/api/globalShortc
 import { open } from '@tauri-apps/api/shell'
 import Color from 'color'
 import db from 'localforage'
-import { notify } from "@kyvg/vue3-notification"
 
 const colorValue = ref<string>('')
 const colorType = ref<string>('HEX')
@@ -214,9 +213,7 @@ async function handleShortcut (s: string) {
     await register(s, handleColorPicker)
     await checkShortcut()
     db.setItem('shortcut', s)
-  } catch (ignore) {
-    notify('快捷键被占用，请注册新的快捷键！')
-  }
+  } catch (ignore) {}
 }
 // 切换快捷键
 async function changeShortcut () {
