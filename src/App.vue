@@ -50,7 +50,7 @@
       <div class="item"
         v-for="(i, j) in history" :key="j"
         :style="`background-color: ${i};`"
-        title="1. 左键单击显示颜色值; &#10;2. 左键双击复制颜色值; &#10;3. 右键单击删除颜色值"
+        title="1. 左键单击显示颜色值&#10;2. 左键双击复制颜色值&#10;3. 右键单击删除颜色值"
         @click="handleHistory(i)"
         @dblclick="handleCopy"
         @contextmenu.prevent="deleteItem(j)"></div>
