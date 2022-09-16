@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/qss/color.css</file>
+        <file>assets/img/close.png</file>
+        <file>assets/img/mini.png</file>
+        <file>assets/img/menu.png</file>
+        <file>assets/img/picker.png</file>
+        <file>assets/img/copy.png</file>
+        <file>assets/img/picker_checked.png</file>
+        <file>assets/img/icon.png</file>
+    </qresource>
+</RCC>

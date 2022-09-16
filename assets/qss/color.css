@@ -1,0 +1,42 @@
+* {
+    font-family: "Microsoft YaHei";
+}
+
+QWidget#content{
+    background-color: #ffffff;
+}
+
+QListWidget {
+    border: none;
+}
+/* =============================================== */
+/* QPushButton                                     */
+/* =============================================== */
+QPushButton {
+    border: none;
+    background-color: #FFFFFF;
+}
+
+QPushButton::hover {
+    background-color: #f6f3f1;
+}
+QPushButton#btnClose::hover {
+    background-color: #c42b1c;
+}
+
+QPushButton::pressed {
+    background-color: #ccddee;
+}
+
+QPushButton:focus {
+    border-color: #0067c0;
+}
+
+QPushButton:disabled {
+    color: #B8B8B8;
+    background-color: #F5F5F5;
+}
+
+QPushButton::checked {
+    background-color: #0067c0;
+}
