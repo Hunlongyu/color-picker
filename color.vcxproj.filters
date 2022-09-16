@@ -51,5 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\qss\color.css" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>

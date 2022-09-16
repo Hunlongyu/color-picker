@@ -43,22 +43,25 @@ void color::initTray()
 {
 	systemTrayIcon.setIcon(QIcon(":/assets/img/icon.png"));
 	systemTrayIcon.setToolTip("Color Picker 取色器");
-	systemTrayIcon.show();
-
 	QAction* showAction = new QAction("显示", &menu);
 	QAction* exitAction = new QAction("退出", &menu);
 	menu.addAction(showAction);
 	menu.addAction(exitAction);
-
 	connect(showAction, &QAction::triggered, [this]() {
 		this->show();
 	});
-
 	connect(exitAction, &QAction::triggered, [this]() {
 		this->close();
 	});
-
+	connect(&systemTrayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
+		switch (reason) {
+		case QSystemTrayIcon::DoubleClick:
+			this->show();
+			break;
+		}
+	});
 	systemTrayIcon.setContextMenu(&menu);
+	systemTrayIcon.show();
 }
 
 void color::on_btnMenu_click()

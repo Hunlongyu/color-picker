@@ -96,6 +96,7 @@
     <QtMoc Include="libs\framelesswindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="assets\qss\color.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
