@@ -25,6 +25,21 @@
   <img src="docs/panel-preview.svg" alt="Color Picker 主界面">
 </p>
 
+<details>
+<summary>📸 <b>更多界面截图</b>（无历史紧凑面板与设置页）</summary>
+<br>
+<table align="center">
+  <tr>
+    <th>紧凑面板（无历史记录）</th>
+    <th>设置页</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/panel-empty.png" alt="紧凑主面板"></td>
+    <td align="center"><img src="docs/settings.png" width="320" alt="设置页"></td>
+  </tr>
+</table>
+</details>
+
 ## ✨ 功能特性
 
 - **一键精准取色** — 按下 `F2` 定格屏幕并呼出放大镜，单击即可将目标像素颜色复制到剪贴板。

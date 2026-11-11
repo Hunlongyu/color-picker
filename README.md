@@ -25,6 +25,21 @@
   <img src="docs/panel-preview.svg" alt="Color Picker Main Interface">
 </p>
 
+<details>
+<summary>📸 <b>More Screenshots</b> (Compact Panel & Settings)</summary>
+<br>
+<table align="center">
+  <tr>
+    <th>Compact Panel (Empty History)</th>
+    <th>Settings</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/panel-empty.png" alt="Compact Panel"></td>
+    <td align="center"><img src="docs/settings.png" width="320" alt="Settings"></td>
+  </tr>
+</table>
+</details>
+
 ## ✨ Features
 
 - **Instant Pixel Picking** — Press `F2` to freeze the screen, inspect pixels with the magnifier, and copy any color in a single click.
