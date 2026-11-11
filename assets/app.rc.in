@@ -1,0 +1,49 @@
+#include <windows.h>
+1 RT_MANIFEST "@CMAKE_CURRENT_SOURCE_DIR@/assets/app.manifest"
+1 ICON "@CMAKE_CURRENT_SOURCE_DIR@/assets/app.ico"
+100 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/LICENSE"
+101 RCDATA "@cui_SOURCE_DIR@/LICENSE"
+102 RCDATA "@updater_SOURCE_DIR@/LICENSE"
+103 RCDATA "@updater_SOURCE_DIR@/src/third_party/cJSON-LICENSE.txt"
+104 RCDATA "@cui_SOURCE_DIR@/third_party/LICENSE-Unicode.txt"
+105 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/LICENSE"
+106 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/third_party/nanosvg/LICENSE.txt"
+200 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/settings-2.svg"
+201 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/arrow-left.svg"
+202 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/external-link.svg"
+203 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/bug.svg"
+204 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/minus.svg"
+205 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/x.svg"
+206 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/pipette.svg"
+207 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/copy.svg"
+208 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/download.svg"
+209 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/refresh-cw.svg"
+210 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/check.svg"
+211 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/arrow-down-to-line.svg"
+212 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/rotate-cw.svg"
+213 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/chevron-down.svg"
+214 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/keyboard.svg"
+215 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/palette.svg"
+216 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/languages.svg"
+217 RCDATA "@CMAKE_CURRENT_SOURCE_DIR@/assets/lucide/sun-moon.svg"
+1 VERSIONINFO
+FILEVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+PRODUCTVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+FILETYPE VFT_APP
+BEGIN
+ BLOCK "StringFileInfo"
+ BEGIN
+  BLOCK "040904b0"
+  BEGIN
+   VALUE "ProductName", "Color Picker"
+   VALUE "FileDescription", "Color Picker"
+   VALUE "FileVersion", "@PROJECT_VERSION@"
+   VALUE "ProductVersion", "@PROJECT_VERSION@"
+   VALUE "OriginalFilename", "color-picker-x64.exe"
+  END
+ END
+ BLOCK "VarFileInfo"
+ BEGIN
+  VALUE "Translation", 0x0409, 1200
+ END
+END
