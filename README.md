@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/panel.png" alt="Color Picker Main Interface">
+  <img src="docs/panel-preview.svg" alt="Color Picker Main Interface">
 </p>
 
 ## ✨ Features
